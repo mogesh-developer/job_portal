@@ -1,0 +1,106 @@
+{% extends 'layout.html' %}
+{% block title %}Student Dashboard{% endblock %}
+{% block content %}
+
+  <style>
+    
+
+    .container {
+      max-width: 600px;
+      margin: 3rem auto;
+      background: var(--surface);
+      padding: 2rem;
+      border-radius: 24px;
+      box-shadow: 0 8px 30px rgba(0,0,0,0.08);
+      animation: fadeIn 0.4s ease;
+    }
+
+  
+    form {
+      display: flex;
+      flex-direction: column;
+      gap: 1.2rem;
+    }
+
+    label {
+      font-weight: 600;
+    }
+
+    input[type="text"],
+    input[type="email"],
+    input[type="password"],
+    input[type="file"] {
+      width: 100%;
+      padding: 0.75rem;
+      border: 1px solid #ccc;
+      border-radius: 8px;
+      background: var(--surface);
+      color: var(--on-surface);
+    }
+
+    button {
+      padding: 0.75rem 1.5rem;
+      background-color: var(--primary);
+      color: var(--on-primary);
+      border: none;
+      border-radius: 12px;
+      font-size: 1rem;
+      cursor: pointer;
+      transition: background-color 0.2s, transform 0.2s;
+    }
+
+    button:hover {
+      background-color: #5e45b0;
+      transform: scale(1.03);
+    }
+
+    .profile-preview {
+      display: flex;
+      justify-content: center;
+      margin-bottom: 1rem;
+    }
+
+    .profile-preview img {
+      width: 120px;
+      height: 120px;
+      border-radius: 50%;
+      object-fit: cover;
+      border: 4px solid var(--accent);
+    }
+
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(10px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+  </style>
+</head>
+<body>
+ 
+  <div class="container">
+    <h1>✏️ Edit Profile</h1>
+
+
+
+
+<img id="preview-img" src="{{ url_for('static', filename=user.profile_image or 'defaults/avatar.png') }}"
+     alt="Profile Picture"
+     onerror="this.onerror=null; this.src='{{ url_for('static', filename='defaults/avatar.png') }}';">
+
+    <form method="POST" enctype="multipart/form-data">
+      <label for="email">Email:</label>
+      <input type="email" id="email" name="email" value="{{ user.email or '' }}">
+
+      <label for="phone">Phone:</label>
+      <input type="text" id="phone" name="phone" value="{{ user.phone or '' }}">
+
+      <label for="password">New Password:</label>
+      <input type="password" id="password" name="password" placeholder="Leave blank to keep current password">
+
+      <label for="profile_image">Profile Image:</label>
+      <input type="file" id="profile_image" name="profile_image" accept="image/*">
+
+      <button type="submit">Save Changes</button>
+    </form>
+  </div>
+
+{% endblock %}

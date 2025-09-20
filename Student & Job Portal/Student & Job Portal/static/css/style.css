@@ -1,0 +1,229 @@
+/* Global Styles */
+* {
+    box-sizing: border-box;
+}
+
+body {
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+}
+
+/* Header Styling */
+header {
+    background: linear-gradient(to right, #3498db, #8e44ad); /* Gradient background */
+    padding: 60px 0; /* Space around the header */
+    color: white;
+    text-align: center;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); /* Subtle shadow for depth */
+}
+
+header h1 {
+    font-size: 3rem; /* Large title */
+    margin: 0;
+    font-family: 'Roboto', sans-serif; /* Custom font */
+    text-transform: uppercase; /* Uppercase title */
+    letter-spacing: 2px; /* Letter spacing for style */
+}
+
+header p {
+    font-size: 1.2rem; /* Smaller subheading */
+    margin-top: 10px;
+    font-style: italic;
+    font-family: 'Georgia', serif;
+    letter-spacing: 1px;
+}
+
+/* Background Images */
+.background-image {
+    height: 100vh;
+    background-image: url('p4.jpg'); /* Replace with actual path */
+    background-size: cover;
+    background-position: center;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.nbackground-image {
+    height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.make {
+    padding-left: 870px;
+    display: flex;
+}
+
+/* Login Forms Container (aligning forms in a row) */
+.login-container-wrapper {
+    display: flex; /* Use Flexbox to align children horizontally */
+    justify-content: center; /* Center the forms horizontally */
+    gap: 50px; /* Optional, for space between the forms */
+    padding: 50px;
+    margin-top: 50px;
+}
+
+/* Common login form styles */
+.login-container {
+    background: #ffffff;
+    padding: 40px;
+    margin-top: -250px;
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    width: 300px;
+    text-align: center;
+}
+
+.login-container h1 {
+    font-size: 24px;
+    margin-bottom: 20px;
+}
+
+input {
+    width: 100%;
+    padding: 10px;
+    margin: 10px 0;
+    border-radius: 5px;
+    border: 1px solid #ccc;
+}
+
+/* Buttons */
+button, .btn {
+    padding: 10px 20px;
+    border: none;
+    background-color: #4CAF50;
+    color: white;
+    font-size: 16px;
+    cursor: pointer;
+    border-radius: 5px;
+}
+
+button:hover, .btn:hover {
+    background-color: #45a049;
+    color: #ffffff;
+}
+
+/* Register Button Styles */
+.make a {
+    text-decoration: none;
+}
+a{
+   text-decoration: none;
+   text-color:white;
+}
+
+.make button {
+    padding: 10px 20px;
+    background-color: #007BFF;
+    color: white;
+    border: none;
+    border-radius: 5px;
+}
+
+.make button:hover {
+    background-color: #0056b3;
+}
+
+/* Table */
+table {
+    border-collapse: collapse;
+    width: 100%;
+    margin-left: 70px;
+}
+
+td, th {
+    border: 2px solid black;
+    text-align: left;
+    padding: 8px;
+}
+
+/* Utility Classes */
+.pur {
+    margin-left: 20px;
+}
+
+.box {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+button i {
+    margin-right: 8px;
+}
+
+/* Centering the main content */
+.background-image {
+    padding: 20px;
+}
+
+/* Styling for buttons */
+button {
+    background-color: #3498db; /* Blue background */
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    font-size: 16px;
+    border-radius: 6px;
+    cursor: pointer;
+    display: flex; /* Flexbox for icon alignment */
+    align-items: center;
+    justify-content: center;
+    transition: background-color 0.3s ease;
+}
+
+button i {
+    margin-right: 8px; /* Space between icon and text */
+}
+
+button:hover {
+    background-color: #2980b9; /* Darker blue on hover */
+}
+
+.logout-button {
+    background-color: #e74c3c; /* Red background for logout */
+}
+
+.logout-button:hover {
+    background-color: #c0392b; /* Darker red on hover */
+}
+
+/* Responsive */
+@media screen and (max-width: 768px) {
+    .login-container-wrapper {
+        flex-direction: column;
+        align-items: center;
+    }
+
+    .login-container {
+        width: 90%; /* Make login form smaller on smaller screens */
+        margin-top: 10px;
+    }
+
+    .make {
+        padding-left: 0; /* Adjust the register button position */
+    }
+
+    .make button {
+        width: 100%; /* Make the button take full width */
+    }
+}
+
+    .schedule{
+        align:center;
+        text-align:center;
+
+    }
+    .slogin-container {
+    background: #ffffff;
+    padding: 40px;
+    margin-top: -250px;
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    width: 500px;
+    text-align: center;
+    text-color:white;
+}

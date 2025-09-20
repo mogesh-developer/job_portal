@@ -1,0 +1,112 @@
+{% extends 'layout.html' %}
+{% block title %}My Applications{% endblock %}
+{% block content %}
+<style>
+  .job-list-container {
+    max-width: 1000px;
+    margin: 2rem auto;
+    padding: 1rem;
+    display: grid;
+    gap: 1.5rem;
+  }
+
+  .job-card {
+    background-color: var(--surface);
+    color: var(--on-surface);
+    padding: 1.5rem;
+    border-radius: 1.25rem;
+    box-shadow: 0 4px 20px rgba(0,0,0,0.08);
+    transition: transform 0.3s, background-color 0.3s, color 0.3s;
+    display: flex;
+    flex-direction: column;
+  }
+
+  .job-card:hover {
+    transform: scale(1.01);
+    background-color: rgba(103, 80, 164, 0.05);
+  }
+
+  .job-title {
+    font-size: 1.3rem;
+    font-weight: bold;
+    color: var(--primary);
+  }
+
+  .company-name,
+  .job-description,
+  .applied-date {
+    color: var(--on-surface);
+    opacity: 0.85;
+  }
+
+  .job-description {
+    margin: 0.8rem 0;
+    font-size: 1rem;
+    line-height: 1.5;
+  }
+
+  .applied-date {
+    font-size: 0.9rem;
+    text-align: right;
+  }
+
+  .alert {
+    background-color: var(--secondary-container, #D0BCFF);
+    color: var(--on-secondary-container, #000);
+    border-radius: 1rem;
+    padding: 1rem;
+    margin: 1rem auto;
+    max-width: 600px;
+    text-align: center;
+    font-weight: 500;
+    box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+  }
+
+  .cancel-btn {
+    background-color: #ff5252;
+    color: white;
+    padding: 0.5rem 1rem;
+    border: none;
+    border-radius: 0.75rem;
+    cursor: pointer;
+    font-size: 0.9rem;
+    transition: background-color 0.3s;
+    margin-top: 0.8rem;
+    align-self: flex-end;
+    width: fit-content;
+  }
+
+  .cancel-btn:hover {
+    background-color: #e53935;
+  }
+</style>
+
+{% with messages = get_flashed_messages() %}
+  {% if messages %}
+    <div class="alert">
+      {% for message in messages %}
+        <p>{{ message }}</p>
+      {% endfor %}
+    </div>
+  {% endif %}
+{% endwith %}
+
+<div class="job-list-container">
+  <h2 style="text-align:center; color: var(--on-surface);">Jobs You Applied For</h2>
+  {% if jobs %}
+    {% for job in jobs %}
+      <div class="job-card">
+        <div class="job-title">{{ job.title }}</div>
+        <div class="company-name">Posted by: {{ job.posted_by }}</div>
+        <div class="job-description">{{ job.description }}</div>
+        <div class="applied-date">Applied on: {{ job.applied_at.strftime('%Y-%m-%d %H:%M') }}</div>
+        <form method="POST" action="{{ url_for('cancel_application', application_id=job.application_id) }}">
+          <button type="submit" class="cancel-btn">Cancel Application</button>
+        </form>
+      </div>
+    {% endfor %}
+  {% else %}
+    <p style="text-align:center; color: var(--on-surface);">You haven’t applied to any jobs yet.</p>
+  {% endif %}
+</div>
+{% endblock %}

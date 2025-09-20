@@ -1,0 +1,318 @@
+{% extends 'layout.html' %}
+{% block title %}Student Dashboard{% endblock %}
+{% block content %}
+
+<style>
+  :root {
+    --primary: #6750A4;
+    --surface: #f4f2f7;
+    --on-surface: #1c1b1f;
+    --radius-lg: 1.5rem;
+    --shadow-light: rgba(0,0,0,0.08);
+    --transition: 0.3s cubic-bezier(.4,.2,.2,1);
+  }
+
+  html[data-theme="dark"] {
+    --surface: #1e1e1e;
+    --on-surface: #f0f0f0;
+    --shadow-light: rgba(0,0,0,0.3);
+  }
+
+  .dashboard-wrapper {
+    max-width: 1180px;
+    margin: 0 auto;
+    padding: 1.5rem 1rem 3rem;
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+  }
+
+  .welcome-stats {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 1.5rem;
+    align-items: center;
+    justify-content: space-between;
+    background: linear-gradient(135deg, rgba(103,80,164,0.08), rgba(103,80,164,0.02));
+    border-radius: 1.25rem;
+    padding: 1rem 1.25rem;
+    position: relative;
+    overflow: hidden;
+    box-shadow: 0 14px 40px rgba(103,80,164,0.08);
+  }
+
+  .welcome-section {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    flex: 1 1 300px;
+    min-width: 220px;
+    flex-wrap: wrap;
+  }
+
+  .welcome-avatar {
+    position: relative;
+    flex-shrink: 0;
+  }
+
+  .welcome-avatar img {
+    width: 90px;
+    height: 90px;
+    border-radius: 50%;
+    object-fit: cover;
+    border: 4px solid var(--primary);
+    box-shadow: 0 10px 28px var(--shadow-light);
+    display: block;
+  }
+
+  .welcome-text {
+    flex: 1;
+    min-width: 180px;
+  }
+
+  .welcome-text h2 {
+    margin: 0;
+    font-size: 1.95rem;
+    font-weight: 600;
+    color: var(--primary);
+    line-height: 1.1;
+  }
+
+  .recent-activity {
+    font-size: 0.9rem;
+    color: #555;
+    margin-top: 4px;
+  }
+
+  .stats-strip {
+    display: flex;
+    gap: 1rem;
+    flex: 1 1 320px;
+    flex-wrap: wrap;
+    min-width: 220px;
+    margin-left: auto;
+  }
+
+  .stat-card {
+    background: white;
+    border-radius: 1rem;
+    padding: 0.85rem 1rem;
+    flex: 1 1 120px;
+    min-width: 120px;
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+    box-shadow: 0 10px 26px rgba(103,80,164,0.04);
+    font-size: 0.8rem;
+    position: relative;
+    overflow: hidden;
+  }
+
+  html[data-theme="dark"] .stat-card {
+    background: #252525;
+  }
+
+  .stat-card .label {
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    color: #555;
+  }
+
+  .stat-card .value {
+    font-size: 1.2rem;
+    font-weight: 700;
+    color: var(--on-surface);
+  }
+
+  .dashboard-container {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+    gap: 1.75rem;
+    margin-top: 0.5rem;
+  }
+
+  .card-option {
+    background: var(--surface);
+    border-radius: var(--radius-lg);
+    padding: 1.75rem 1.25rem;
+    position: relative;
+    overflow: hidden;
+    cursor: pointer;
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+    text-align: left;
+    box-shadow: 0 10px 30px var(--shadow-light);
+    transition: transform var(--transition), box-shadow var(--transition), background var(--transition);
+    border: 1px solid rgba(0,0,0,0.03);
+  }
+
+  .card-option:focus-visible {
+    outline: 3px solid rgba(103,80,164,0.6);
+    outline-offset: 2px;
+  }
+
+  .card-option:hover {
+    transform: translateY(-2px) scale(1.015);
+    box-shadow: 0 16px 44px var(--shadow-light);
+    background: linear-gradient(145deg, rgba(103,80,164,0.05), rgba(103,80,164,0.01));
+  }
+
+  .card-option i {
+    font-size: 2.2rem;
+    color: var(--primary);
+    margin-bottom: 6px;
+    display: block;
+  }
+
+  .card-content {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+  }
+
+  .card-content h3 {
+    margin: 0;
+    font-size: 1.15rem;
+    font-weight: 600;
+    color: var(--on-surface);
+  }
+
+  .card-content p {
+    margin: 0;
+    font-size: 0.9rem;
+    color: #666;
+    flex: 1;
+  }
+
+  .card-footer {
+    margin-top: auto;
+    font-size: 0.75rem;
+    color: var(--primary);
+    font-weight: 600;
+  }
+
+  @media (max-width: 950px) {
+    .welcome-stats {
+      flex-direction: column;
+      align-items: stretch;
+    }
+
+    .welcome-section {
+      justify-content: center;
+    }
+
+    .stats-strip {
+      justify-content: space-between;
+    }
+
+    .dashboard-wrapper {
+      padding: 1rem 0.75rem 2rem;
+    }
+  }
+</style>
+
+<div class="dashboard-wrapper">
+  <div class="welcome-stats">
+    <div class="welcome-section">
+      <!-- <div class="welcome-avatar"> 
+        {% if user_image %}
+          <img src="{{ url_for('static', filename=user_image) }}" alt="Profile Picture"
+               onerror="this.onerror=null; this.src='{{ url_for('static', filename='uploads/avatar.png') }}';">
+        {% else %}
+          <div style="width:90px; height:90px; border-radius:50%; background:rgba(103,80,164,0.1); display:flex; align-items:center; justify-content:center;">
+            <i class="fas fa-user" style="font-size:28px; color: #6750A4;"></i>
+          </div>
+        {% endif %}
+      </div>-->
+      <div class="welcome-text">
+        <h2>Welcome back, {{ username }}!</h2>
+        <div class="recent-activity">
+          {% if last_applied %}
+            Last applied to: <strong>{{ last_applied.position }}</strong> at <em>{{ last_applied.company }}</em>, {{ last_applied.humanized_time }} ago.
+          {% else %}
+            No recent activity. Start by exploring opportunities below.
+          {% endif %}
+        </div>
+      </div>
+    </div>
+
+    <div class="stats-strip" aria-label="Quick stats">
+      <div class="stat-card">
+        <div class="label">Jobs Without applying</div>
+        <div class="value">{{ new_matches or 0 }}</div>
+      </div>
+      <div class="stat-card">
+        <div class="label">Applied Jobs</div>
+        <div class="value">{{ pending_applications or 0 }}</div>
+      </div>
+      <div class="stat-card">
+        <div class="label">Unread Alerts</div>
+        <div class="value">{{ unread_notifications or 0 }}</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="dashboard-container" aria-label="Dashboard options">
+    <div class="card-option" onclick="location.href='/apply-jobs'" role="button" tabindex="0" aria-label="Apply for Jobs">
+      <i class="fas fa-briefcase" aria-hidden="true"></i>
+      <div class="card-content">
+        <h3>Apply for Jobs</h3>
+        <p>Explore available opportunities tailored to you.</p>
+      </div>
+      <div class="card-footer">Start applying →</div>
+    </div>
+
+    <div class="card-option" onclick="location.href='/applied-jobs'" role="button" tabindex="0" aria-label="View Applied Jobs">
+      <i class="fas fa-file-alt" aria-hidden="true"></i>
+      <div class="card-content">
+        <h3>View Applied Jobs</h3>
+        <p>Track the status of your applications.</p>
+      </div>
+      <div class="card-footer">See your history →</div>
+    </div>
+
+    <div class="card-option" onclick="location.href='/notifications'" role="button" tabindex="0" aria-label="Notifications">
+      <i class="fas fa-bell" aria-hidden="true"></i>
+      <div class="card-content">
+        <h3>Notifications</h3>
+        <p>Stay updated with job alerts and messages.</p>
+      </div>
+      <div class="card-footer">View alerts →</div>
+    </div>
+
+    <div class="card-option" onclick="location.href='/edit-profile'" role="button" tabindex="0" aria-label="Edit Profile">
+      <i class="fas fa-user-edit" aria-hidden="true"></i>
+      <div class="card-content">
+        <h3>Edit Profile</h3>
+        <p>Keep your information current to get better matches.</p>
+      </div>
+      <div class="card-footer">Update now →</div>
+    </div>
+
+    <div class="card-option" onclick="location.href='/view-applicants'" role="button" tabindex="0" aria-label="View Applicants">
+      <i class="fas fa-users" aria-hidden="true"></i>
+      <div class="card-content">
+        <h3>View Applicants</h3>
+        <p>See who applied to the jobs you posted.</p>
+      </div>
+      <div class="card-footer">Manage applicants →</div>
+    </div>
+
+    <div class="card-option" onclick="location.href='/logout'" role="button" tabindex="0" aria-label="Logout">
+      <i class="fas fa-sign-out-alt" aria-hidden="true"></i>
+      <div class="card-content">
+        <h3>Logout</h3>
+        <p>End your session securely.</p>
+      </div>
+      <div class="card-footer">Sign out →</div>
+    </div>
+  </div>
+</div>
+
+
+
+
+{% endblock %}

@@ -1,0 +1,410 @@
+<!-- layout.html -->
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>{% block title %}Dashboard | FIND_IT Job Portal{% endblock %}</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+  <style>
+    :root {
+      --primary: #6750A4;
+      --on-primary: #ffffff;
+      --background: #f5f5f5;
+      --surface: #ffffff;
+      --on-surface: #1c1b1f;
+      --accent: #03DAC6;
+      --radius: 1.25rem;
+      --transition: .35s cubic-bezier(.4,.2,.2,1);
+      --shadow: 0 28px 70px rgba(103,80,164,0.08);
+    }
+
+    [data-theme="dark"] {
+      --background: #0f0f19;
+      --surface: #1e1e2a;
+      --on-surface: #e5e5e5;
+      --primary: #bb86fc;
+      --on-primary: #000;
+    }
+
+    * { box-sizing: border-box; }
+
+    body {
+      margin: 0;
+      font-family: "Google Sans", "Roboto", sans-serif;
+      background: var(--background);
+      color: var(--on-surface);
+      transition: background var(--transition), color var(--transition);
+      min-height: 100vh;
+      line-height: 1.4;
+    }
+
+    a { text-decoration: none; color: inherit; }
+
+    header {
+      position: sticky;
+      top: 0;
+      z-index: 1000;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      flex-wrap: wrap;
+      padding: 0.75rem 1.5rem;
+      gap: 0.75rem;
+      background: linear-gradient(135deg, var(--primary), #7f67be);
+      color: var(--on-primary);
+      border-bottom-left-radius: 1.75rem;
+      border-bottom-right-radius: 1.75rem;
+      box-shadow: var(--shadow);
+      backdrop-filter: saturate(180%) blur(12px);
+    }
+
+    .logo {
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      flex: 0 0 auto;
+    }
+
+    .logo h1 {
+      margin: 0;
+      font-size: 1.6rem;
+      font-weight: 700;
+      letter-spacing: 0.08em;
+      line-height: 1;
+    }
+
+    .nav-wrapper {
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+      flex: 1 1 auto;
+      min-width: 0;
+    }
+
+    .nav-links {
+      list-style: none;
+      display: flex;
+      gap: 0.75rem;
+      margin: 0;
+      padding: 0;
+      flex-wrap: wrap;
+      position: relative;
+    }
+
+    .nav-links li a {
+      padding: 0.55rem 1rem;
+      border-radius: 9999px;
+      font-weight: 600;
+      font-size: 0.9rem;
+      display: inline-flex;
+      align-items: center;
+      gap: 4px;
+      background: rgba(255,255,255,0.08);
+      color: var(--on-primary);
+      transition: background var(--transition), box-shadow var(--transition);
+      position: relative;
+      box-shadow: 0 4px 18px rgba(0,0,0,0.08);
+    }
+
+    .nav-links li a.active {
+      background: #ffffff;
+      color: var(--primary);
+      box-shadow: 0 12px 32px rgba(103,80,164,0.4);
+    }
+
+    .nav-links li a:hover,
+    .nav-links li a:focus-visible {
+      background: rgba(255,255,255,0.3);
+      outline: none;
+    }
+
+    .search-container {
+      flex: 1 1 220px;
+      position: relative;
+      max-width: 300px;
+    }
+
+    .search-container input {
+      width: 100%;
+      padding: 0.55rem 1rem;
+      padding-left: 2.5rem;
+      border-radius: 999px;
+      border: none;
+      font-size: 0.9rem;
+      background: rgba(255,255,255,0.15);
+      color: var(--on-primary);
+      backdrop-filter: blur(6px);
+      box-shadow: 0 6px 18px rgba(0,0,0,0.1);
+      transition: background var(--transition);
+    }
+
+    .search-container .fa-magnifying-glass {
+      position: absolute;
+      left: 12px;
+      top: 50%;
+      transform: translateY(-50%);
+      font-size: 0.9rem;
+      pointer-events: none;
+      color: rgba(255,255,255,0.9);
+    }
+
+    .actions {
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+      flex: 0 0 auto;
+    }
+
+    .icon-button {
+      position: relative;
+      background: rgba(255,255,255,0.15);
+      border: none;
+      padding: 0.5rem;
+      border-radius: 50%;
+      cursor: pointer;
+      color: var(--on-primary);
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.1rem;
+      transition: background var(--transition), box-shadow var(--transition);
+    }
+
+    .icon-button:hover,
+    .icon-button:focus-visible {
+      background: rgba(255,255,255,0.35);
+      outline: none;
+      box-shadow: 0 8px 24px rgba(255,255,255,0.3);
+    }
+
+    .badge {
+      position: absolute;
+      top: 4px;
+      right: 4px;
+      background: #ff4d4f;
+      color: #fff;
+      font-size: 0.55rem;
+      padding: 2px 6px;
+      border-radius: 999px;
+      font-weight: 700;
+      line-height: 1;
+    }
+
+    .profile-menu {
+      position: relative;
+      display: inline-flex;
+      align-items: center;
+    }
+
+    .profile-button {
+      background: rgba(255, 255, 255, 0.2);
+      border: none;
+      padding: 0.45rem 0.9rem;
+      border-radius: 999px;
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      cursor: pointer;
+      font-weight: 600;
+      color: var(--on-primary);
+      transition: background var(--transition), box-shadow var(--transition);
+      font-size: 0.9rem;
+      backdrop-filter: blur(8px);
+    }
+
+    .profile-button:focus-visible {
+      outline: 3px solid rgba(255,255,255,0.7);
+      outline-offset: 1px;
+    }
+
+    .avatar {
+      width: 36px;
+      height: 36px;
+      border-radius: 50%;
+      overflow: hidden;
+      background: rgba(255,255,255,0.25);
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+    }
+
+    .avatar img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      display: block;
+    }
+
+    .profile-dropdown {
+      position: absolute;
+      right: 0;
+      top: calc(100% + 8px);
+      background: var(--surface);
+      border-radius: 14px;
+      min-width: 220px;
+      box-shadow: 0 20px 60px rgba(0,0,0,0.15);
+      overflow: hidden;
+      display: none;
+      padding: 6px 0;
+      font-size: 0.9rem;
+      z-index: 50;
+    }
+
+    .profile-menu:hover .profile-dropdown,
+    .profile-menu:focus-within .profile-dropdown {
+      display: block;
+    }
+
+    .profile-dropdown a {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      padding: 0.75rem 1rem;
+      color: var(--on-surface);
+      font-weight: 500;
+      transition: background var(--transition);
+    }
+
+    .profile-dropdown a:hover {
+      background: rgba(103,80,164,0.08);
+    }
+
+    .dropdown-divider {
+      height: 1px;
+      background: rgba(0,0,0,0.05);
+      margin: 4px 0;
+    }
+
+    /* Container styling */
+    .container {
+      max-width: 1180px;
+      margin: 1.75rem auto 3rem;
+      padding: 2rem 2rem 2.5rem;
+      background: var(--surface);
+      border-radius: 1.5rem;
+      box-shadow: 0 28px 70px rgba(103, 80, 164, 0.08), 0 12px 32px rgba(0,0,0,0.04);
+      position: relative;
+      overflow: hidden;
+      transition: background var(--transition), box-shadow var(--transition);
+    }
+
+    .container::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      pointer-events: none;
+      background: radial-gradient(circle at 30% 40%, rgba(103,80,164,0.04), transparent 50%), radial-gradient(circle at 80% 20%, rgba(3,218,198,0.025), transparent 60%);
+      border-radius: 1.5rem;
+    }
+
+    .container h1, .container h2 {
+      margin-top: 0;
+      font-weight: 700;
+      color: var(--on-surface);
+    }
+
+    @media (max-width: 900px) {
+      .container {
+        padding: 1.5rem 1.25rem 2rem;
+        margin: 1rem auto 2rem;
+      }
+      .nav-links {
+        display: none;
+      }
+    }
+
+    main {
+      padding: 0;
+      animation: fadeIn .4s ease;
+    }
+
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(8px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <div class="logo">
+      <h1>FIND_IT</h1>
+    </div>
+
+    <div class="nav-wrapper">
+      <nav aria-label="Primary navigation">
+        <ul class="nav-links">
+          <li><a href="{{ url_for('user_dashboard') }}" class="{% if request.endpoint == 'user_dashboard' %}active{% endif %}"><i class="fas fa-home"></i> Home</a></li>
+          <li><a href="{{ url_for('apply_jobs') }}" class="{% if request.endpoint == 'apply_jobs' %}active{% endif %}"><i class="fas fa-briefcase"></i> Jobs</a></li>
+          <li><a href="{{ url_for('view_applicants') }}" class="{% if request.endpoint == 'view_applicants' %}active{% endif %}"><i class="fas fa-users"></i> Applicants</a></li>
+          <li><a href="{{ url_for('notifications') }}" class="{% if request.endpoint == 'notifications' %}active{% endif %}"><i class="fas fa-bell"></i> Notifications</a></li>
+          {% if session.get('user_id') %}
+            <li><a href="{{ url_for('post_job') }}" class="{% if request.endpoint == 'post_job' %}active{% endif %}"><i class="fas fa-plus-circle"></i> Post Job</a></li>
+          {% endif %}
+        </ul>
+      </nav>
+
+      <div class="search-container" aria-label="Search">
+        <i class="fas fa-magnifying-glass"></i>
+        <input type="text" placeholder="Search jobs, applicants...">
+      </div>
+    </div>
+
+    <div class="actions">
+      <button class="icon-button" aria-label="Notifications">
+        <i class="fas fa-bell"></i>
+        {% if unread_notifications and unread_notifications > 0 %}
+          <span class="badge">{{ unread_notifications }}</span>
+        {% endif %}
+      </button>
+
+      <div class="profile-menu" tabindex="0">
+        <button class="profile-button" aria-haspopup="true" aria-expanded="false">
+          <!-- <span class="avatar"> 
+  {% if user_image %}
+    <img src="{{ url_for('static', filename=user_image) }}" alt="User avatar"
+         onerror="this.onerror=null; this.src='{{ url_for('static', filename='defaults/avatar.png') }}';">
+  {% else %}
+    <img src="{{ url_for('static', filename='defaults/avatar.png') }}" alt="Default avatar">
+  {% endif %}
+</span>-->
+
+          <span>{{ session.username|capitalize }}</span>
+          <i class="fas fa-caret-down" style="margin-left:4px;"></i>
+        </button>
+        <div class="profile-dropdown" role="menu">
+          <a href="{{ url_for('profile') }}" role="menuitem"><i class="fas fa-id-card"></i> View Profile</a>
+          <a href="{{ url_for('edit_profile') }}" role="menuitem"><i class="fas fa-user-edit"></i> Edit Profile</a>
+          <div class="dropdown-divider"></div>
+          <a href="{{ url_for('logout') }}" role="menuitem"><i class="fas fa-sign-out-alt"></i> Logout</a>
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <main>
+    {% block content %}{% endblock %}
+  </main>
+
+  <script>
+    function toggleTheme() {
+      const html = document.documentElement;
+      const current = html.getAttribute("data-theme");
+      const next = current === "dark" ? "light" : "dark";
+      html.setAttribute("data-theme", next);
+      // swap icon
+      const icon = document.getElementById('themeIcon');
+      if (icon) icon.className = next === "dark" ? "fas fa-sun" : "fas fa-moon";
+      localStorage.setItem('theme', next);
+    }
+
+    window.addEventListener("DOMContentLoaded", () => {
+      const savedTheme = localStorage.getItem("theme") || "light";
+      document.documentElement.setAttribute("data-theme", savedTheme);
+      const icon = document.getElementById('themeIcon');
+      if (icon) icon.className = savedTheme === "dark" ? "fas fa-sun" : "fas fa-moon";
+    });
+  </script>
+</body>
+</html>

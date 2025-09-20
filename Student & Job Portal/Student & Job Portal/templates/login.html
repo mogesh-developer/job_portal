@@ -1,0 +1,281 @@
+{% extends 'layout.html' %}
+{% block title %}Student Dashboard{% endblock %}
+{% block content %}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>FIND_IT Job Portal</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+
+  <style>
+    :root {
+      --primary: #6750A4;
+      --on-primary: #ffffff;
+      --surface: #f5f5f5;
+      --on-surface: #1c1b1f;
+      --surface-container: #ffffff;
+      --accent: #03DAC6;
+      --radius: 1.25rem;
+      --transition: 0.4s ease;
+
+      /* Dark Theme Variables */
+      --dark-surface: #121212;
+      --dark-surface-container: #1E1E1E;
+      --dark-on-surface: #e0e0e0;
+      --dark-primary: #BB86FC;
+      --dark-on-primary: #000000;
+    }
+
+    [data-theme="dark"] {
+      --surface: var(--dark-surface);
+      --surface-container: var(--dark-surface-container);
+      --on-surface: var(--dark-on-surface);
+      --primary: var(--dark-primary);
+      --on-primary: var(--dark-on-primary);
+    }
+
+    * {
+      box-sizing: border-box;
+      transition: background-color var(--transition), color var(--transition), border var(--transition);
+      font-family: "Google Sans", "Roboto", sans-serif;
+    }
+
+    body {
+      margin: 0;
+      padding: 0;
+      background-color: var(--surface);
+      color: var(--on-surface);
+    }
+
+    /* Navbar styles */
+    header {
+      background-color: var(--primary);
+      color: var(--on-primary);
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+      position: sticky;
+      top: 0;
+      z-index: 1000;
+    }
+
+    .navbar {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 1rem 2rem;
+    }
+
+    .logo a {
+      font-size: 1.5rem;
+      font-weight: bold;
+      color: var(--on-primary);
+      text-decoration: none;
+    }
+
+    .nav-links {
+      list-style: none;
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+      margin: 0;
+    }
+
+    .nav-links li a {
+      color: var(--on-primary);
+      text-decoration: none;
+      font-weight: 500;
+    }
+
+    .nav-links li a:hover {
+      text-decoration: underline;
+    }
+
+    .nav-links li button.theme-toggle {
+      background: transparent;
+      border: none;
+      color: var(--on-primary);
+      font-size: 1.25rem;
+      cursor: pointer;
+    }
+
+    .nbackground-image {
+      background: linear-gradient(to bottom right, #ede7f6, #f3e5f5);
+      padding: 4rem 2rem;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      min-height: 60vh;
+    }
+
+    [data-theme="dark"] .nbackground-image {
+      background: linear-gradient(to bottom right, #1e1e1e, #2a2a2a);
+    }
+
+    .login-container-wrapper {
+      display: flex;
+      gap: 2rem;
+      flex-wrap: wrap;
+      justify-content: center;
+    }
+
+    .login-container {
+      background-color: var(--surface-container);
+      padding: 2rem;
+      border-radius: var(--radius);
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+      width: 320px;
+      animation: fadeInUp 0.6s ease;
+    }
+
+    .login-container h1 {
+      margin-bottom: 1.5rem;
+      color: var(--primary);
+    }
+
+    input, select {
+      width: 100%;
+      padding: 0.75rem;
+      margin-bottom: 1rem;
+      border: 1px solid #ccc;
+      border-radius: 0.75rem;
+      font-size: 1rem;
+      background-color: transparent;
+      color: var(--on-surface);
+    }
+
+    input:focus, select:focus {
+      border-color: var(--primary);
+      outline: none;
+    }
+
+    button {
+      background-color: var(--primary);
+      color: var(--on-primary);
+      border: none;
+      padding: 0.75rem 1.5rem;
+      font-size: 1rem;
+      border-radius: 2rem;
+      cursor: pointer;
+    }
+
+    button:hover {
+      background-color: #7f67be;
+    }
+
+    .register-link {
+      text-align: center;
+      margin-top: 2rem;
+    }
+
+    .make button {
+      background-color: var(--accent);
+      color: #000;
+      padding: 0.6rem 1.5rem;
+      font-size: 1rem;
+      border-radius: 1.5rem;
+      border: none;
+    }
+
+    .make button:hover {
+      background-color: #00c4b4;
+    }
+
+    @keyframes fadeInUp {
+      0% {
+        opacity: 0;
+        transform: translateY(20px);
+      }
+      100% {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    @media screen and (max-width: 768px) {
+      .nav-links {
+        flex-wrap: wrap;
+      }
+      .login-container-wrapper {
+        flex-direction: column;
+        align-items: center;
+      }
+    }
+  </style>
+</head>
+<body data-theme="light">
+
+  <!-- Updated Material You-style Navbar 
+  <header>
+    <nav class="navbar">
+      <div class="logo">
+        <a href="{{ url_for('home') }}">FIND_IT</a>
+      </div>
+      <ul class="nav-links">
+        <li><a href="{{ url_for('home') }}">Home</a></li>
+        {% if session.get('user_id') %}
+          <li><a href="{{ url_for('profile') }}">Profile</a></li>
+          <li><a href="{{ url_for('logout') }}">Logout</a></li>
+        {% else %}
+          <li><a href="{{ url_for('login') }}">Login</a></li>
+          <li><a href="{{ url_for('register') }}">Register</a></li>
+        {% endif %}
+        <li>
+          <button class="theme-toggle" onclick="toggleTheme()" title="Toggle Theme">
+            <i class="fas fa-moon"></i>
+          </button>
+        </li>
+      </ul>
+    </nav>
+  </header>-->
+
+  <!-- Main Content -->
+  <div class="nbackground-image">
+    <div class="login-container-wrapper">
+      <div class="login-container">
+        <h1>Login</h1>
+        <form method="POST" action="{{ url_for('login') }}">
+          <input name="username" placeholder="Username" required>
+          <input name="password" type="password" placeholder="Password" required>
+          <button type="submit"><i class="fas fa-sign-in-alt"></i> Login</button>
+        </form>
+      </div>
+    </div>
+  </div>
+
+  <!-- Register Redirect -->
+  <div class="register-link">
+    <p>If you are a new Student?</p>
+    <div class="make">
+      <a href="{{ url_for('register') }}"><button>Register Here</button></a>
+    </div>
+  </div>
+
+  <script>
+    function toggleTheme() {
+      const body = document.body;
+      const icon = document.querySelector(".theme-toggle i");
+      const currentTheme = body.getAttribute("data-theme");
+
+      if (currentTheme === "light") {
+        body.setAttribute("data-theme", "dark");
+        icon.classList.replace("fa-moon", "fa-sun");
+      } else {
+        body.setAttribute("data-theme", "light");
+        icon.classList.replace("fa-sun", "fa-moon");
+      }
+    }
+
+    window.onload = () => {
+      const theme = localStorage.getItem('theme');
+      if (theme) {
+        document.body.setAttribute("data-theme", theme);
+        const icon = document.querySelector(".theme-toggle i");
+        icon.classList.replace("fa-moon", theme === "dark" ? "fa-sun" : "fa-moon");
+      }
+    };
+  </script>
+</body>
+</html>
+{% endblock %}

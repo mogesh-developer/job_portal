@@ -1,0 +1,25 @@
+{% extends 'layout.html' %}
+{% block title %}View Applications{% endblock %}
+
+{% block content %}
+<div class="job-list-container">
+  <h2 style="text-align:center; margin-bottom:1rem;">Applications for Your Posted Jobs</h2>
+
+  {% if applications %}
+    {% for app in applications %}
+      <div class="job-card">
+        <div class="job-header">
+          <div class="job-title">{{ app.job_title }}</div>
+          <div class="company-name">Applied by: {{ app.applicant_username }}</div>
+        </div>
+        <div class="job-description">
+          Application ID: {{ app.id }}<br>
+          Applied At: {{ app.applied_at }}
+        </div>
+      </div>
+    {% endfor %}
+  {% else %}
+    <p>No applications yet for your jobs.</p>
+  {% endif %}
+</div>
+{% endblock %}

@@ -1,0 +1,59 @@
+{% extends 'layout.html' %}
+{% block title %}Notifications{% endblock %}
+{% block content %}
+<style>
+  .notifications-container {
+    max-width: 800px;
+    margin: 2rem auto;
+    padding: 1rem;
+  }
+
+  .notification-card {
+    background-color: var(--surface);
+    border-radius: 1.2rem;
+    padding: 1rem 1.5rem;
+    box-shadow: 0 4px 20px rgba(0,0,0,0.08);
+    margin-bottom: 1rem;
+    transition: background 0.3s, color 0.3s;
+    color: var(--on-surface);
+  }
+
+  .notification-card:hover {
+    background-color: rgba(103, 80, 164, 0.05); /* subtle hover */
+  }
+
+  .notification-msg {
+    font-size: 1.05rem;
+    color: var(--on-surface);
+  }
+
+  .notification-time {
+    font-size: 0.85rem;
+    color: var(--on-surface);
+    opacity: 0.6;
+    margin-top: 0.3rem;
+  }
+
+  @media (prefers-color-scheme: dark) {
+    .notification-card:hover {
+      background-color: rgba(187, 134, 252, 0.08);
+    }
+  }
+</style>
+
+<div class="notifications-container">
+  <h2 style="color: var(--on-surface)">🔔 Notifications</h2>
+  {% if notices %}
+    {% for note in notices %}
+    <div class="notification-card">
+      <div class="notification-msg">{{ note.message }}</div>
+      <div class="notification-time">
+        {{ note.created_at.strftime('%b %d, %Y %I:%M %p') }}
+      </div>
+    </div>
+    {% endfor %}
+  {% else %}
+    <p style="color: var(--on-surface); text-align: center;">No new notifications.</p>
+  {% endif %}
+</div>
+{% endblock %}

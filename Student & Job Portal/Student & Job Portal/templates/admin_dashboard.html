@@ -1,0 +1,12 @@
+{% extends 'layout.html' %}
+{% block title %}Admin Dashboard{% endblock %}
+{% block content %}
+<div class="dashboard-card">
+  <h2>Welcome, Admin {{ username }}!</h2>
+  <div class="button-group">
+    <button onclick="location.href='/manage-users'">Manage Users</button>
+    <button onclick="location.href='/manage-jobs'">Manage Job Listings</button>
+    <button onclick="location.href='/reports'">View Reports</button>
+  </div>
+</div>
+{% endblock %}

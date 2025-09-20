@@ -1,0 +1,106 @@
+{% extends 'layout.html' %}
+{% block title %}Apply for Jobs{% endblock %}
+{% block content %}
+<style>
+  .job-list-container {
+    max-width: 1000px;
+    margin: 2rem auto;
+    padding: 1rem;
+    display: grid;
+    gap: 1.5rem;
+  }
+
+  .job-card {
+    background-color: var(--surface);
+    color: var(--on-surface);
+    padding: 1.5rem;
+    border-radius: 1.25rem;
+    box-shadow: 0 4px 20px rgba(0,0,0,0.08);
+    transition: transform 0.3s, background-color 0.3s, color 0.3s;
+    display: flex;
+    flex-direction: column;
+  }
+
+  .job-card:hover {
+    transform: scale(1.01);
+    background-color: rgba(103, 80, 164, 0.05);
+  }
+
+  .job-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+
+  .job-title {
+    font-size: 1.3rem;
+    font-weight: bold;
+    color: var(--primary);
+  }
+
+  .company-name {
+    font-size: 1rem;
+    color: var(--on-surface);
+    opacity: 0.7;
+  }
+
+  .job-description {
+    margin: 1rem 0;
+    font-size: 1rem;
+    line-height: 1.5;
+    color: var(--on-surface);
+  }
+
+  .job-actions {
+    display: flex;
+    justify-content: flex-end;
+  }
+
+  .apply-btn {
+    background-color: var(--primary);
+    color: var(--on-primary);
+    padding: 0.6rem 1.2rem;
+    border: none;
+    border-radius: 1.5rem;
+    font-size: 1rem;
+    cursor: pointer;
+  }
+
+  .apply-btn:hover {
+    background-color: #5e45b0;
+  }
+
+  @media (max-width: 768px) {
+    .job-card {
+      padding: 1rem;
+    }
+
+    .job-title {
+      font-size: 1.1rem;
+    }
+  }
+</style>
+
+<div class="job-list-container">
+  <h2 style="text-align:center; margin-bottom:1rem; color: var(--on-surface);">Available Jobs</h2>
+
+  {% for job in jobs %}
+  <div class="job-card">
+    <div class="job-header">
+      <div>
+        <div class="job-title">{{ job.title }}</div>
+        <div class="company-name">Posted by: {{ job.posted_by }}</div>
+      </div>
+    </div>
+    <div class="job-description">{{ job.description }}</div>
+    <div class="job-actions">
+      <form method="POST" action="{{ url_for('apply_job', job_id=job.id) }}">
+        <button class="apply-btn" type="submit">Apply Now</button>
+      </form>
+    </div>
+  </div>
+  {% else %}
+    <p style="color: var(--on-surface); text-align: center;">No job postings available at the moment.</p>
+  {% endfor %}
+</div>
+{% endblock %}

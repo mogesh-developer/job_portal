@@ -1,0 +1,74 @@
+{% extends 'layout.html' %}
+{% block title %}Post a Job{% endblock %}
+{% block content %}
+<style>
+  .job-list-container {
+    max-width: 600px;
+    margin: 2rem auto;
+    padding: 2rem;
+    background-color: var(--surface, #fdfdfd);
+    color: var(--on-surface, #000);
+    border-radius: 1.25rem;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+    transition: background-color 0.3s ease, color 0.3s ease;
+  }
+
+  .job-list-container h2 {
+    text-align: center;
+    margin-bottom: 1.5rem;
+    color: var(--primary, #6750A4);
+  }
+
+  form {
+    display: flex;
+    flex-direction: column;
+    gap: 1.2rem;
+  }
+
+  input, textarea {
+    padding: 0.9rem 1.2rem;
+    font-size: 1rem;
+    border: 1px solid var(--outline, #ccc);
+    border-radius: 1rem;
+    background-color: var(--surface-container-low, #f4f4f4);
+    color: var(--on-surface, #000);
+    transition: border-color 0.2s ease, background-color 0.2s ease;
+  }
+
+  input:focus, textarea:focus {
+    outline: none;
+    border-color: var(--primary, #6750A4);
+    background-color: var(--surface, #fff);
+  }
+
+  .apply-btn {
+    background-color: var(--primary, #6750A4);
+    color: var(--on-primary, #fff);
+    padding: 0.8rem 1.5rem;
+    font-size: 1rem;
+    border: none;
+    border-radius: 2rem;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+  }
+
+  .apply-btn:hover {
+    background-color: #5e45b0;
+  }
+
+  @media (max-width: 768px) {
+    .job-list-container {
+      padding: 1.5rem;
+    }
+  }
+</style>
+
+<div class="job-list-container">
+  <h2>📢 Post a New Job</h2>
+  <form method="POST" action="{{ url_for('post_job') }}">
+    <input name="title" placeholder="Job Title" required>
+    <textarea name="description" placeholder="Job Description" rows="5" required></textarea>
+    <button type="submit" class="apply-btn">Post Job</button>
+  </form>
+</div>
+{% endblock %}

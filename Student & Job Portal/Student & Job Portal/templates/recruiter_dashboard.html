@@ -1,0 +1,12 @@
+{% extends 'layout.html' %}
+{% block title %}Recruiter Dashboard{% endblock %}
+{% block content %}
+<div class="dashboard-card">
+  <h2>Welcome, Recruiter {{ username }}!</h2>
+  <div class="button-group">
+    <button onclick="location.href='/post-job'">Post New Job</button>
+    <button onclick="location.href='/view-applicants'">View Applicants</button>
+    <button onclick="location.href='/manage-posts'">Manage Posts</button>
+  </div>
+</div>
+{% endblock %}
