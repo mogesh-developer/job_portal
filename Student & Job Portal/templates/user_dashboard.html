@@ -1,0 +1,484 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <title>Student Dashboard | FIND_IT</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        /* --- Styles from layout (matched with apply_jobs.html) --- */
+        :root {
+            --primary: #5A67D8;
+            --primary-container: #E0E7FF;
+            --on-primary-container: #243E8B;
+            --text-color: #1A202C;
+            --text-muted: #718096;
+            --bg-color: #F7FAFC;
+            --surface-color: #FFFFFF;
+            --border-color: #EDF2F7;
+            --header-height: 72px;
+            --bottom-nav-height: 70px;
+            --transition-speed: 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            --shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+        }
+
+        [data-theme="dark"] {
+            --primary: #9F7AEA;
+            --primary-container: #38326C;
+            --on-primary-container: #E9D8FD;
+            --text-color: #E2E8F0;
+            --text-muted: #A0AEC0;
+            --bg-color: #1A202C;
+            --surface-color: #2D3748;
+            --border-color: #4A5568;
+        }
+
+        *, *::before, *::after { box-sizing: border-box; }
+
+        body {
+            margin: 0;
+            font-family: 'Inter', sans-serif;
+            background-color: var(--bg-color);
+            color: var(--text-color);
+            transition: background-color 0.2s linear, color 0.2s linear;
+        }
+
+        .app-header {
+            position: sticky;
+            top: 0;
+            width: 100%;
+            height: var(--header-height);
+            z-index: 1000;
+            background-color: hsla(0, 0%, 100%, 0.8);
+            backdrop-filter: saturate(180%) blur(10px);
+            -webkit-backdrop-filter: saturate(180%) blur(10px);
+            border-bottom: 1px solid var(--border-color);
+            transition: background-color 0.2s linear, border-color 0.2s linear;
+        }
+        [data-theme="dark"] .app-header {
+            background-color: hsla(220, 23%, 16%, 0.8);
+        }
+
+        .navbar {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            height: 100%;
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 0 1.5rem;
+        }
+
+        .navbar-start { display: flex; align-items: center; gap: 2rem; }
+        .navbar-logo {
+            display: flex; align-items: center; gap: 0.5rem;
+            text-decoration: none; color: var(--text-color);
+        }
+        .logo-icon { font-size: 1.7rem; color: var(--primary); }
+        .logo-text { font-size: 1.4rem; font-weight: 700; }
+
+        .nav-links {
+            display: flex;
+            list-style: none; padding: 0; margin: 0;
+            align-items: center; gap: 0.5rem;
+        }
+        .nav-item a {
+            padding: 0.6rem 1rem;
+            border-radius: 99px;
+            text-decoration: none;
+            color: var(--text-muted);
+            font-weight: 600;
+            font-size: 0.9rem;
+            transition: color 0.2s, background-color 0.2s;
+        }
+        .nav-item a:hover {
+            color: var(--text-color);
+            background-color: var(--border-color);
+        }
+        .nav-item a.active {
+            color: var(--on-primary-container);
+            background-color: var(--primary-container);
+        }
+
+        .navbar-end { display: flex; align-items: center; gap: 0.75rem; }
+        .search-container input {
+            width: 100%; padding: 0.6rem 1rem;
+            border-radius: 8px; border: 1px solid var(--border-color);
+            background-color: var(--bg-color); color: var(--text-color);
+            font-size: 0.9rem;
+            min-width: 250px;
+        }
+        
+        .icon-button {
+            background: none; border: none; font-size: 1.2rem;
+            color: var(--text-muted); width: 44px; height: 44px;
+            border-radius: 50%; cursor: pointer;
+            display: grid; place-items: center;
+            transition: color 0.2s, background-color 0.2s;
+        }
+        .icon-button:hover {
+            color: var(--text-color); background-color: var(--border-color);
+        }
+        
+        .avatar {
+            width: 40px; height: 40px; border-radius: 50%;
+            background-color: var(--primary); color: white;
+            font-weight: 600; display: grid; place-items: center;
+            cursor: pointer; overflow: hidden;
+        }
+        .avatar img { width: 100%; height: 100%; object-fit: cover; }
+        
+        main {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 2rem 1.5rem;
+        }
+        
+        .mobile-bottom-nav {
+            display: none;
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            height: var(--bottom-nav-height);
+            background: hsla(0, 0%, 100%, 0.8);
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
+            border-top: 1px solid var(--border-color);
+            box-shadow: 0 -2px 10px rgba(0,0,0,0.05);
+            z-index: 1000;
+        }
+        [data-theme="dark"] .mobile-bottom-nav {
+            background: hsla(220, 23%, 16%, 0.8);
+        }
+        .mobile-nav-list {
+            list-style: none;
+            padding: 0; margin: 0;
+            display: flex;
+            justify-content: space-around;
+            align-items: center;
+            height: 100%;
+        }
+        .mobile-nav-item a {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 4px;
+            padding: 8px 12px;
+            color: var(--text-muted);
+            text-decoration: none;
+            font-size: 0.75rem;
+            font-weight: 500;
+        }
+        .mobile-nav-item a .nav-icon { font-size: 1.3rem; }
+        .mobile-nav-item a.active { color: var(--primary); }
+
+        @media (max-width: 768px) {
+            .nav-links, .search-container { display: none; }
+            .navbar { padding: 0 1rem; }
+            main { padding: 1.5rem 1rem; padding-bottom: calc(var(--bottom-nav-height) + 1.5rem); }
+            .mobile-bottom-nav { display: block; }
+        }
+
+        /* --- NEW Styles for Dashboard Content --- */
+        .dashboard-wrapper { max-width: 1200px; margin: 0 auto; }
+
+        .welcome-stats {
+            background-color: var(--surface-color);
+            border-radius: 1.25rem;
+            padding: 1.5rem;
+            margin-bottom: 2rem;
+            display: flex;
+            flex-direction: column;
+            gap: 1.5rem;
+            box-shadow: var(--shadow);
+            border: 1px solid var(--border-color);
+        }
+
+        .welcome-section { display: flex; align-items: center; gap: 1rem; }
+        .welcome-avatar img { width: 56px; height: 56px; border-radius: 50%; object-fit: cover; }
+        .welcome-text h2 { font-size: 1.5rem; font-weight: 600; margin: 0 0 0.25rem; }
+        .welcome-text p { color: var(--text-muted); margin: 0; font-size: 0.9rem; }
+
+        .stats-strip {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(100px, 1fr));
+            gap: 1rem;
+        }
+        .stat-chip { text-align: center; }
+        .stat-chip .label { font-size: 0.8rem; font-weight: 500; color: var(--text-muted); }
+        .stat-chip .value { font-size: 2rem; font-weight: 700; color: var(--primary); }
+
+        .dashboard-container {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+            gap: 1.5rem;
+        }
+
+        .card-option {
+            background-color: var(--surface-color);
+            padding: 1.5rem;
+            border-radius: 1.25rem;
+            box-shadow: var(--shadow);
+            border: 1px solid var(--border-color);
+            cursor: pointer;
+            transition: transform 0.2s var(--transition-speed), box-shadow 0.2s var(--transition-speed);
+            display: flex; flex-direction: column;
+        }
+        .card-option:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 15px -3px rgba(0,0,0,0.1), 0 4px 6px -2px rgba(0,0,0,0.05);
+        }
+        .card-option .icon {
+            font-size: 1.5rem;
+            color: var(--primary);
+            width: 48px; height: 48px;
+            border-radius: 0.75rem;
+            display: grid; place-items: center;
+            background-color: var(--primary-container);
+            margin-bottom: 1rem;
+        }
+        .card-content { flex-grow: 1; }
+        .card-content h3 { font-size: 1.2rem; margin: 0 0 0.5rem; }
+        .card-content p { font-size: 0.9rem; color: var(--text-muted); margin: 0; line-height: 1.5; }
+        .card-footer { margin-top: 1rem; font-weight: 600; color: var(--primary); }
+        /* ripple removed to avoid click animation and reduce DOM churn */
+        
+        @media(min-width: 768px) {
+            .welcome-stats {
+                flex-direction: row;
+                align-items: center;
+                justify-content: space-between;
+                padding: 2rem;
+            }
+            .stats-strip {
+                flex-shrink: 0;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header class="app-header">
+        <nav class="navbar">
+            <div class="navbar-start">
+                <a href="{{ url_for('user_dashboard') }}" class="navbar-logo">
+                    <i class="fas fa-search-location logo-icon"></i>
+                    <span class="logo-text">FIND_IT</span>
+                </a>
+                <ul class="nav-links">
+                     <li class="nav-item"><a href="{{ url_for('user_dashboard') }}" class="{% if request.endpoint == 'user_dashboard' %}active{% endif %}">Home</a></li>
+                     <li class="nav-item"><a href="{{ url_for('apply_jobs') }}" class="{% if request.endpoint == 'apply_jobs' %}active{% endif %}">Jobs</a></li>
+                     <li class="nav-item"><a href="{{ url_for('view_applicants') }}" class="{% if request.endpoint == 'view_applicants' %}active{% endif %}">Applicants</a></li>
+                     {% if session.get('user_id') %}
+                     <li class="nav-item"><a href="{{ url_for('post_job') }}" class="{% if request.endpoint == 'post_job' %}active{% endif %}">Post a Job</a></li>
+                     {% endif %}
+                </ul>
+            </div>
+
+            <div class="navbar-end">
+                <div class="search-container">
+                     <input type="search" placeholder="Search...">
+                </div>
+                <button class="icon-button" id="themeToggle" title="Toggle Theme"><i class="fas fa-moon"></i></button>
+                <button class="icon-button" title="Notifications"><i class="fas fa-bell"></i></button>
+                {% set _display_name = username or session.get('username') %}
+                <div class="avatar" title="{{ _display_name|capitalize if _display_name else '' }}">
+                    {% if user_image %}
+                        <img src="{{ url_for('static', filename=user_image) }}" alt="{{ _display_name }}'s avatar" onerror="this.onerror=null;this.src='{{ url_for('static', filename='defaults/avatar.svg') }}';">
+                    {% else %}
+                        {{ _display_name[0]|upper if _display_name else 'U' }}
+                    {% endif %}
+                </div>
+            </div>
+        </nav>
+    </header>
+
+    <main>
+      <div class="dashboard-wrapper">
+        <div class="welcome-stats" role="region" aria-label="Welcome banner">
+          <div class="welcome-section">
+            <div class="welcome-avatar" aria-hidden="true">
+              {% if user_image %}
+                <img src="{{ url_for('static', filename=user_image) }}" alt="{{ username }}'s avatar" loading="lazy" onerror="this.onerror=null;this.src='{{ url_for('static', filename='defaults/avatar.svg') }}';">
+              {% else %}
+                <img src="{{ url_for('static', filename='defaults/avatar.svg') }}" alt="Default avatar" loading="lazy">
+              {% endif %}
+            </div>
+
+            <div class="welcome-text">
+              <h2 id="welcomeMessage">Welcome back, {{ username|default('Student') }}!</h2>
+              <p id="recentActivity">
+                {% if last_applied %}
+                  Last applied to <strong>{{ last_applied.position }}</strong> at <em>{{ last_applied.company }}</em> 
+ {{ last_applied.humanized_time }} ago.
+                {% else %}
+                  No recent activity, explore opportunities below.
+                {% endif %}
+              </p>
+            </div>
+          </div>
+
+          <div class="stats-strip" aria-hidden="false" aria-label="Quick stats">
+            <div class="stat-chip" role="group" aria-label="New matches">
+              <div class="label">Matches</div>
+              <div class="value" data-target="{{ new_matches or 0 }}">0</div>
+            </div>
+            <div class="stat-chip" role="group" aria-label="Applied">
+              <div class="label">Applied</div>
+              <div class="value" data-target="{{ pending_applications or 0 }}">0</div>
+            </div>
+            <div class="stat-chip" role="group" aria-label="Unread alerts">
+              <div class="label">Alerts</div>
+              <div class="value" data-target="{{ unread_notifications or 0 }}">0</div>
+            </div>
+          </div>
+        </div>
+
+        <div class="dashboard-container" aria-label="Dashboard options">
+          <div class="card-option" role="button" tabindex="0" aria-label="Apply for Jobs" data-href="{{ url_for('apply_jobs') }}">
+            <div class="icon"><i class="fas fa-briefcase" aria-hidden="true"></i></div>
+            <div class="card-content">
+              <h3>Apply for Jobs</h3>
+              <p>Explore curated opportunities tailored to your profile.</p>
+            </div>
+            <div class="card-footer">Start</div>
+          </div>
+          <div class="card-option" role="button" tabindex="0" aria-label="View Applied Jobs" data-href="{{ url_for('applied_jobs') }}">
+            <div class="icon"><i class="fas fa-file-alt" aria-hidden="true"></i></div>
+            <div class="card-content">
+              <h3>Applied Jobs</h3>
+              <p>Track application status and next steps.</p>
+            </div>
+            <div class="card-footer">See</div>
+          </div>
+          <div class="card-option" role="button" tabindex="0" aria-label="Notifications" data-href="{{ url_for('notifications') }}">
+            <div class="icon"><i class="fas fa-bell" aria-hidden="true"></i></div>
+            <div class="card-content">
+              <h3>Notifications</h3>
+              <p>Alerts, messages, and interview invites.</p>
+            </div>
+            <div class="card-footer">View</div>
+          </div>
+          <div class="card-option" role="button" tabindex="0" aria-label="Edit Profile" data-href="{{ url_for('edit_profile') }}">
+            <div class="icon"><i class="fas fa-user-edit" aria-hidden="true"></i></div>
+            <div class="card-content">
+              <h3>Edit Profile</h3>
+              <p>Keep your profile fresh for better matches.</p>
+            </div>
+            <div class="card-footer">Update</div>
+          </div>
+          <div class="card-option" role="button" tabindex="0" aria-label="View Applicants" data-href="{{ url_for('view_applicants') }}">
+            <div class="icon"><i class="fas fa-users" aria-hidden="true"></i></div>
+            <div class="card-content">
+              <h3>View Applicants</h3>
+              <p>Manage and review applicants for your postings.</p>
+            </div>
+            <div class="card-footer">Manage</div>
+          </div>
+          <div class="card-option" role="button" tabindex="0" aria-label="Logout" data-href="{{ url_for('logout') }}">
+            <div class="icon"><i class="fas fa-sign-out-alt" aria-hidden="true"></i></div>
+            <div class="card-content">
+              <h3>Logout</h3>
+              <p>Sign out securely from your account.</p>
+            </div>
+            <div class="card-footer">Sign out</div>
+          </div>
+        </div>
+      </div>
+    </main>
+
+    <nav class="mobile-bottom-nav" aria-label="Main mobile navigation">
+        <ul class="mobile-nav-list">
+            <li class="mobile-nav-item">
+                <a href="{{ url_for('user_dashboard') }}" class="{% if request.endpoint == 'user_dashboard' %}active{% endif %}">
+                    <i class="fas fa-home nav-icon"></i>
+                    <span>Home</span>
+                </a>
+            </li>
+            <li class="mobile-nav-item">
+                <a href="{{ url_for('apply_jobs') }}" class="{% if request.endpoint == 'apply_jobs' %}active{% endif %}">
+                    <i class="fas fa-briefcase nav-icon"></i>
+                    <span>Jobs</span>
+                </a>
+            </li>
+             {% if session.get('user_id') %}
+            <li class="mobile-nav-item">
+                <a href="{{ url_for('post_job') }}" class="{% if request.endpoint == 'post_job' %}active{% endif %}">
+                    <i class="fas fa-plus-circle nav-icon"></i>
+                    <span>Post</span>
+                </a>
+            </li>
+            {% endif %}
+            <li class="mobile-nav-item">
+                <a href="{{ url_for('profile') }}" class="{% if 'profile' in request.endpoint %}active{% endif %}">
+                    <i class="fas fa-user nav-icon"></i>
+                    <span>Profile</span>
+                </a>
+            </li>
+        </ul>
+    </nav>
+    
+    <script>
+        // --- THEME TOGGLER SCRIPT ---
+        document.addEventListener('DOMContentLoaded', () => {
+            const themeToggle = document.getElementById('themeToggle');
+            const updateThemeIcon = (theme) => {
+                const icon = themeToggle.querySelector('i');
+                icon.className = theme === 'dark' ? 'fas fa-sun' : 'fas fa-moon';
+            };
+            themeToggle.addEventListener('click', () => {
+                const newTheme = document.documentElement.getAttribute('data-theme') === 'dark' ? 'light' : 'dark';
+                document.documentElement.setAttribute('data-theme', newTheme);
+                localStorage.setItem('theme', newTheme);
+                updateThemeIcon(newTheme);
+            });
+            const savedTheme = localStorage.getItem('theme') || 'light';
+            document.documentElement.setAttribute('data-theme', savedTheme);
+            updateThemeIcon(savedTheme);
+        });
+
+        // --- DASHBOARD-SPECIFIC SCRIPTS ---
+        (function () {
+            const prefersReduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+            document.addEventListener('click', (e) => {
+                const card = e.target.closest('.card-option');
+                if (card && card.dataset.href) window.location.href = card.dataset.href;
+            });
+
+            // removed ripple creation to avoid animation lag; cards still navigate on click
+
+            const animateCount = (el, target) => {
+                if (prefersReduced) {
+                    el.textContent = target;
+                    return;
+                }
+                const duration = 1200; const start = performance.now();
+                const tick = (now) => {
+                    const t = Math.min(1, (now - start)/duration);
+                    const eased = 1 - Math.pow(1 - t, 3);
+                    el.textContent = Math.round(eased * target);
+                    if (t < 1) requestAnimationFrame(tick);
+                };
+                requestAnimationFrame(tick);
+            };
+
+            if ('IntersectionObserver' in window) {
+                const statIO = new IntersectionObserver((entries, obs) => {
+                    entries.forEach(en => {
+                        if (en.isIntersecting) {
+                            const val = en.target.querySelector('.value');
+                            const target = parseInt(val.dataset.target) || 0;
+                            animateCount(val, target);
+                            obs.unobserve(en.target);
+                        }
+                    });
+                }, { threshold: 0.5 });
+                document.querySelectorAll('.stat-chip').forEach(ch => statIO.observe(ch));
+            } else {
+                document.querySelectorAll('.stat-chip .value').forEach(v => v.textContent = v.dataset.target);
+            }
+        })();
+    </script>
+</body>
+</html>

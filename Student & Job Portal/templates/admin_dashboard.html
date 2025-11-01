@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Admin Dashboard | FIND_IT</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+</head>
+<body>
+
+  <header class="app-header">
+    <nav class="navbar">
+      <div class="navbar-start">
+        <a href="{{ url_for('user_dashboard') }}" class="navbar-logo">
+          <i class="fas fa-search-location logo-icon"></i>
+          <span class="logo-text">FIND_IT</span>
+        </a>
+        <ul class="nav-links">
+           <li class="nav-item"><a href="{{ url_for('user_dashboard') }}" class="{% if request.endpoint == 'user_dashboard' %}active{% endif %}">Home</a></li>
+           <li class="nav-item"><a href="{{ url_for('apply_jobs') }}" class="{% if request.endpoint == 'apply_jobs' %}active{% endif %}">Jobs</a></li>
+           <li class="nav-item"><a href="{{ url_for('view_applicants') }}" class="{% if request.endpoint == 'view_applicants' %}active{% endif %}">Applicants</a></li>
+           {% if session.get('user_id') %}
+           <li class="nav-item"><a href="{{ url_for('post_job') }}" class="{% if request.endpoint == 'post_job' %}active{% endif %}">Post a Job</a></li>
+           {% endif %}
+        </ul>
+      </div>
+
+      <div class="navbar-end">
+        <div class="search-container">
+           <input type="search" placeholder="Search...">
+        </div>
+        <button class="icon-button" id="themeToggle" title="Toggle Theme"><i class="fas fa-moon"></i></button>
+        <button class="icon-button" title="Notifications"><i class="fas fa-bell"></i></button>
+        {% set _display_name = username or session.get('username') %}
+        <div class="avatar" title="{{ _display_name|capitalize if _display_name else '' }}">
+          {% if user_image %}
+            <img src="{{ url_for('static', filename=user_image) }}" alt="{{ _display_name }}'s avatar" onerror="this.onerror=null;this.src='{{ url_for('static', filename='defaults/avatar.svg') }}';">
+          {% else %}
+            {{ _display_name[0]|upper if _display_name else 'U' }}
+          {% endif %}
+        </div>
+      </div>
+    </nav>
+  </header>
+
+  <main>
+    <div class="dashboard-card">
+    <h2>Welcome, Admin {{ username }}!</h2>
+    <div class="button-group">
+      <button onclick="location.href='/manage-users'">Manage Users</button>
+      <button onclick="location.href='/manage-jobs'">Manage Job Listings</button>
+      <button onclick="location.href='/reports'">View Reports</button>
+    </div>
+    </div>
+  </main>
+
+  <nav class="mobile-bottom-nav" aria-label="Main mobile navigation">
+    <ul class="mobile-nav-list">
+      <li class="mobile-nav-item">
+        <a href="{{ url_for('user_dashboard') }}" class="{% if request.endpoint == 'user_dashboard' %}active{% endif %}">
+          <i class="fas fa-home nav-icon"></i>
+          <span>Home</span>
+        </a>
+      </li>
+      <li class="mobile-nav-item">
+        <a href="{{ url_for('apply_jobs') }}" class="{% if request.endpoint == 'apply_jobs' %}active{% endif %}">
+          <i class="fas fa-briefcase nav-icon"></i>
+          <span>Jobs</span>
+        </a>
+      </li>
+       {% if session.get('user_id') %}
+      <li class="mobile-nav-item">
+        <a href="{{ url_for('post_job') }}" class="{% if request.endpoint == 'post_job' %}active{% endif %}">
+          <i class="fas fa-plus-circle nav-icon"></i>
+          <span>Post</span>
+        </a>
+      </li>
+      {% endif %}
+      <li class="mobile-nav-item">
+        <a href="{{ url_for('profile') }}" class="{% if 'profile' in request.endpoint %}active{% endif %}">
+          <i class="fas fa-user nav-icon"></i>
+          <span>Profile</span>
+        </a>
+      </li>
+    </ul>
+  </nav>
+
+  <script>
+    document.addEventListener('DOMContentLoaded', () => {
+      const themeToggle = document.getElementById('themeToggle');
+
+      const updateThemeIcon = (theme) => {
+        const icon = themeToggle.querySelector('i');
+        icon.className = theme === 'dark' ? 'fas fa-sun' : 'fas fa-moon';
+      };
+
+      themeToggle.addEventListener('click', () => {
+        const newTheme = document.documentElement.getAttribute('data-theme') === 'dark' ? 'light' : 'dark';
+        document.documentElement.setAttribute('data-theme', newTheme);
+        localStorage.setItem('theme', newTheme);
+        updateThemeIcon(newTheme);
+      });
+
+      const savedTheme = localStorage.getItem('theme') || 'light';
+      document.documentElement.setAttribute('data-theme', savedTheme);
+      updateThemeIcon(savedTheme);
+    });
+  </script>
+</body>
+</html>
