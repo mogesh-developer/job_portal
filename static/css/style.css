@@ -1,0 +1,150 @@
+/* Shared application styles for FIND_IT */
+:root{
+  --bg:#f6f8fb;
+  --surface:#ffffff;
+  --muted:#6b7280;
+  --text:#0f172a;
+  --accent:#3b82f6;
+  --accent-2:#7c3aed;
+  --card-shadow:0 8px 30px rgba(15,23,42,0.06);
+  --radius:14px;
+}
+*{box-sizing:border-box}
+body{margin:0;font-family:Inter, system-ui, -apple-system, 'Segoe UI', Roboto, Arial;background:var(--bg);color:var(--text);-webkit-font-smoothing:antialiased}
+
+/* Top header */
+.app-header{position:sticky;top:0;z-index:50;background:linear-gradient(90deg, rgba(255,255,255,0.95), rgba(255,255,255,0.82));backdrop-filter:blur(6px);border-bottom:1px solid rgba(15,23,42,0.04)}
+.navbar{max-width:1200px;margin:0 auto;display:flex;align-items:center;justify-content:space-between;padding:12px 20px;gap:12px}
+.navbar-logo{display:flex;align-items:center;gap:10px;text-decoration:none;color:var(--text)}
+.logo-icon{font-size:20px;color:var(--accent)}
+.logo-text{font-weight:700;font-size:18px}
+.nav-links{display:flex;gap:8px;align-items:center}
+.nav-item a{padding:8px 12px;border-radius:10px;text-decoration:none;color:var(--muted);font-weight:600;font-size:14px}
+.nav-item a.active{background:linear-gradient(90deg,var(--accent-2),var(--accent));color:white}
+
+.navbar-end{display:flex;align-items:center;gap:12px}
+.search-container input{min-width:220px;padding:10px 12px;border-radius:10px;border:1px solid rgba(15,23,42,0.06);background:transparent}
+.icon-button{background:transparent;border:none;padding:8px;border-radius:10px;color:var(--muted);cursor:pointer}
+.icon-button:hover{background:rgba(15,23,42,0.03);color:var(--text)}
+
+.avatar{width:44px;height:44px;border-radius:999px;overflow:hidden;display:inline-grid;place-items:center;background:linear-gradient(180deg,var(--accent),#2563eb);color:#fff;font-weight:700}
+.avatar img{display:block;width:100%;height:100%;object-fit:cover}
+
+/* Main layout */
+main{max-width:1200px;margin:20px auto;padding:20px}
+.container{max-width:920px;margin:0 auto;padding:0 12px}
+.card{background:var(--surface);border-radius:var(--radius);box-shadow:var(--card-shadow);padding:24px}
+
+/* Dashboard */
+.dashboard-wrapper{display:grid;grid-template-columns:1fr;gap:18px}
+.welcome-stats{display:flex;gap:16px;align-items:center;justify-content:space-between;padding:18px;border-radius:16px;background:linear-gradient(180deg,rgba(59,130,246,0.06),rgba(124,58,237,0.03));box-shadow:var(--card-shadow);border:1px solid rgba(15,23,42,0.03)}
+.welcome-section{display:flex;gap:16px;align-items:center}
+.welcome-avatar{width:72px;height:72px;border-radius:999px;overflow:hidden;border:3px solid rgba(59,130,246,0.12);box-shadow:0 8px 28px rgba(59,130,246,0.06)}
+.welcome-avatar img{width:100%;height:100%;object-fit:cover}
+.welcome-text h2{margin:0;font-size:18px}
+.welcome-text p{margin:4px 0 0;color:var(--muted);font-size:13px}
+.stats-strip{display:flex;gap:10px;align-items:center}
+.stat-chip{background:var(--surface);padding:10px 12px;border-radius:12px;box-shadow:var(--card-shadow);min-width:76px}
+.stat-chip .label{font-size:11px;color:var(--muted);text-transform:uppercase;font-weight:700}
+.stat-chip .value{font-size:16px;font-weight:800;margin-top:4px}
+.dashboard-container{display:grid;grid-template-columns:repeat(3,1fr);gap:16px}
+.card-option{background:var(--surface);padding:18px;border-radius:14px;display:flex;gap:14px;align-items:flex-start;border:1px solid rgba(15,23,42,0.04);box-shadow:var(--card-shadow);cursor:pointer;transition:transform .18s ease,box-shadow .18s ease}
+.card-option:hover{transform:translateY(-6px);box-shadow:0 14px 40px rgba(15,23,42,0.08)}
+.card-option .icon{width:48px;height:48px;border-radius:12px;background:linear-gradient(180deg,var(--accent),#2563eb);display:grid;place-items:center;color:white;font-size:18px}
+.card-content h3{margin:0;font-size:15px}
+.card-content p{margin:6px 0 0;color:var(--muted);font-size:13px}
+.card-footer{margin-left:auto;color:var(--accent);font-weight:700}
+
+/* Profile / Edit */
+.profile-card{display:grid;grid-template-columns:220px 1fr;gap:20px;align-items:start}
+.profile-avatar{width:200px;height:200px;border-radius:16px;overflow:hidden;border:6px solid rgba(59,130,246,0.06);background:linear-gradient(180deg,#fff,#f3f6ff)}
+.profile-avatar img{width:100%;height:100%;object-fit:cover}
+.info-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:12px;margin-top:18px}
+.info-item{background:linear-gradient(180deg,#fff,#fbfdff);padding:14px;border-radius:12px;border:1px solid rgba(15,23,42,0.04)}
+.actions{display:flex;gap:12px;margin-top:18px}
+.btn{padding:10px 14px;border-radius:10px;border:none;cursor:pointer;font-weight:700}
+.btn-primary{background:linear-gradient(90deg,var(--accent),#2563eb);color:#fff}
+.btn-ghost{background:transparent;border:1px solid rgba(15,23,42,0.06);color:var(--text)}
+
+/* Forms */
+.form-grid{display:grid;gap:12px}
+label{font-weight:700;color:var(--muted);font-size:13px}
+input[type='text'],input[type='email'],input[type='password'],input[type='file']{padding:12px;border-radius:10px;border:1px solid rgba(15,23,42,0.06);font-size:14px}
+
+/* Responsive */
+@media (max-width:980px){.dashboard-container{grid-template-columns:repeat(2,1fr)}.search-container input{min-width:150px}}
+@media (max-width:640px){.navbar{padding:10px 14px}.nav-links{display:none}.search-container{display:none}.dashboard-container{grid-template-columns:1fr}.welcome-stats{flex-direction:column;align-items:flex-start}.welcome-avatar{width:56px;height:56px}.profile-card{grid-template-columns:1fr}.profile-avatar{width:120px;height:120px;margin:0 auto}}
+
+:focus{outline:3px solid rgba(59,130,246,0.18);outline-offset:2px}
+
+/* Ripple effect element used by interactive cards */
+.ripple{position:absolute;border-radius:50%;transform:scale(0);background:rgba(59,130,246,0.12);pointer-events:none;will-change:transform,opacity;opacity:0.9}
+
+/* Buttons and controls */
+.btn{transition:transform .12s ease, box-shadow .12s ease}
+.btn:hover{transform:translateY(-2px);box-shadow:0 8px 24px rgba(15,23,42,0.08)}
+
+/* Form focus states */
+input[type='text']:focus,input[type='email']:focus,input[type='password']:focus,textarea:focus,input[type='file']:focus{box-shadow:0 6px 20px rgba(59,130,246,0.08);border-color:rgba(59,130,246,0.32)}
+
+/* Mobile bottom nav tweaks */
+.mobile-bottom-nav{display:none}
+@media (max-width:768px){
+  .mobile-bottom-nav{display:block;position:fixed;left:8px;right:8px;bottom:12px;background:linear-gradient(180deg,rgba(255,255,255,0.98),#fff);border-radius:12px;padding:6px 10px;box-shadow:0 10px 30px rgba(2,6,23,0.12);max-width:980px;margin:0 auto}
+  .mobile-nav-list{display:flex;gap:12px;justify-content:space-between;align-items:center}
+  .mobile-nav-item a{display:flex;flex-direction:column;align-items:center;padding:6px 10px;border-radius:10px}
+}
+
+/* Utility spacing helpers */
+.mt-8{margin-top:8px}
+.mt-12{margin-top:12px}
+.mb-8{margin-bottom:8px}
+.p-12{padding:12px}
+
+/* Form file input nicer appearance for supported browsers */
+input[type='file']{background:transparent}
+
+/* Subtle header shadow when scrolled */
+.app-header.scrolled{box-shadow:0 6px 20px rgba(2,6,23,0.06)}
+
+/* Ensure images in cards don't overflow */
+.card img{max-width:100%;height:auto;display:block}
+
+/* Dark theme overrides when html[data-theme="dark"] is set */
+html[data-theme="dark"]{
+  --bg: #0b1220;
+  --surface: #0f1724;
+  --muted: #95a3b8;
+  --text: #e6eef8;
+  --accent: #7c3aed;
+  --accent-2: #5b21b6;
+  --card-shadow: 0 10px 30px rgba(2,6,23,0.6);
+}
+
+/* Minor dark-mode tweaks */
+html[data-theme="dark"] .app-header{background:linear-gradient(90deg, rgba(10,15,25,0.85), rgba(10,15,25,0.76));border-bottom:1px solid rgba(255,255,255,0.04)}
+html[data-theme="dark"] .nav-item a{color:var(--muted)}
+html[data-theme="dark"] .nav-item a.active{background:linear-gradient(90deg,var(--accent),var(--accent-2));color:#fff}
+html[data-theme="dark"] .card{background:var(--surface);box-shadow:0 8px 30px rgba(2,6,23,0.6)}
+html[data-theme="dark"] .stat-chip{background:linear-gradient(180deg, rgba(255,255,255,0.02), rgba(255,255,255,0.01));border:1px solid rgba(255,255,255,0.02)}
+html[data-theme="dark"] input, html[data-theme="dark"] textarea {background: #0b1422; color: var(--text); border-color: rgba(255,255,255,0.04)}
+
+/* --------------------------------------------------------------------------
+   Disable click/active visual effects
+   - Hide ripple helper
+   - Prevent transform/box-shadow/transition on :active / :hover during mouse clicks
+   - Preserve keyboard focus outlines (accessibility) by not removing :focus-visible
+  -------------------------------------------------------------------------- */
+.ripple{display:none !important; opacity:0 !important; pointer-events:none}
+
+/* Quickly neutralize transitions and transforms on interactive controls */
+.btn, .card-option, .icon-button, .nav-item a, .mobile-nav-item a { transition: none !important }
+
+/* Prevent hover/active visual shifts for mouse/touch interactions */
+.btn:hover, .card-option:hover, .icon-button:hover, .nav-item a:hover, .mobile-nav-item a:hover { transform: none !important; box-shadow: none !important; }
+.btn:active, .card-option:active, .icon-button:active, .nav-item a:active, .mobile-nav-item a:active { transform: none !important; box-shadow: none !important; }
+
+/* Ensure focus outlines remain for keyboard users; suppress mouse-triggered outlines only */
+*:focus { outline-offset: 2px }
+*:focus:not(:focus-visible) { outline: none }
+

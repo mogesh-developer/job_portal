@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <title>Schedule Interview | FIND_IT</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        /* --- Layout Styles --- */
+        :root {
+            --primary: #5A67D8; --primary-container: #E0E7FF; --on-primary-container: #243E8B;
+            --text-color: #1A202C; --text-muted: #718096; --bg-color: #F7FAFC;
+            --surface-color: #FFFFFF; --border-color: #EDF2F7; --header-height: 72px;
+            --bottom-nav-height: 70px; --transition-speed: 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+        [data-theme="dark"] {
+            --primary: #9F7AEA; --primary-container: #38326C; --on-primary-container: #E9D8FD;
+            --text-color: #E2E8F0; --text-muted: #A0AEC0; --bg-color: #1A202C;
+            --surface-color: #2D3748; --border-color: #4A5568;
+        }
+        *, *::before, *::after { box-sizing: border-box; }
+        body { margin: 0; font-family: 'Inter', sans-serif; background-color: var(--bg-color); color: var(--text-color); transition: background-color 0.2s linear, color 0.2s linear; }
+        main { max-width: 1400px; margin: 0 auto; padding: 2rem 1.5rem; }
+
+        /* --- Page-Specific Styles --- */
+        .schedule-container { max-width: 500px; margin: 0 auto; background: var(--surface-color); padding: 2.5rem; border-radius: 24px; box-shadow: 0 8px 30px rgba(0,0,0,0.08); }
+        .schedule-container h2 { text-align: center; margin-top: 0; margin-bottom: 2rem; color: var(--primary); font-size: 1.8rem; }
+        .schedule-form { display: flex; flex-direction: column; gap: 1.5rem; }
+        .schedule-form input, .schedule-form textarea { width: 100%; padding: 0.8rem 1rem; border: 1px solid var(--border-color); border-radius: 8px; background: var(--bg-color); color: var(--text-color); font-size: 1rem; font-family: 'Inter', sans-serif; }
+        .schedule-form textarea { resize: vertical; min-height: 120px; }
+        .schedule-form button { padding: 0.8rem 1.5rem; background-color: var(--primary); color: white; border: none; border-radius: 8px; font-size: 1rem; font-weight: 600; cursor: pointer; transition: background-color 0.2s; }
+    </style>
+</head>
+<body>
+    <main>
+        <div class="schedule-container">
+            <h2>Schedule Interview</h2>
+            <form class="schedule-form">
+                <input type="tel" placeholder="Applicant Phone Number" required>
+                <textarea placeholder="Enter interview details (date, time, location, etc.)" required></textarea>
+                <button type="submit">Send Schedule</button>
+            </form>
+        </div>
+    </main>
+</body>
+</html>

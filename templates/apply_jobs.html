@@ -1,0 +1,383 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <title>Apply for Jobs | FIND_IT</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        /* --- Styles from layout.html --- */
+        :root {
+            --primary: #5A67D8;
+            --primary-container: #E0E7FF;
+            --on-primary-container: #243E8B;
+            --text-color: #1A202C;
+            --text-muted: #718096;
+            --bg-color: #F7FAFC;
+            --surface-color: #FFFFFF;
+            --border-color: #EDF2F7;
+            --header-height: 72px; /* Adjusted height */
+            --bottom-nav-height: 70px;
+            --transition-speed: 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            --shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+        }
+
+        [data-theme="dark"] {
+            --primary: #9F7AEA;
+            --primary-container: #38326C;
+            --on-primary-container: #E9D8FD;
+            --text-color: #E2E8F0;
+            --text-muted: #A0AEC0;
+            --bg-color: #1A202C;
+            --surface-color: #2D3748;
+            --border-color: #4A5568;
+        }
+
+        *, *::before, *::after { box-sizing: border-box; }
+
+        body {
+            margin: 0;
+            font-family: 'Inter', sans-serif;
+            background-color: var(--bg-color);
+            color: var(--text-color);
+            transition: background-color 0.2s linear, color 0.2s linear;
+        }
+
+        .app-header {
+            position: sticky;
+            top: 0;
+            width: 100%;
+            height: var(--header-height);
+            z-index: 1000;
+            background-color: hsla(0, 0%, 100%, 0.8);
+            backdrop-filter: saturate(180%) blur(10px);
+            -webkit-backdrop-filter: saturate(180%) blur(10px);
+            border-bottom: 1px solid var(--border-color);
+            transition: background-color 0.2s linear, border-color 0.2s linear;
+        }
+        [data-theme="dark"] .app-header {
+            background-color: hsla(220, 23%, 16%, 0.8);
+        }
+
+        .navbar {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            height: 100%;
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 0 1.5rem;
+        }
+
+        .navbar-start { display: flex; align-items: center; gap: 2rem; }
+        .navbar-logo {
+            display: flex; align-items: center; gap: 0.5rem;
+            text-decoration: none; color: var(--text-color);
+        }
+        .logo-icon { font-size: 1.7rem; color: var(--primary); }
+        .logo-text { font-size: 1.4rem; font-weight: 700; }
+
+        .nav-links {
+            display: flex;
+            list-style: none; padding: 0; margin: 0;
+            align-items: center; gap: 0.5rem;
+        }
+        .nav-item a {
+            padding: 0.6rem 1rem;
+            border-radius: 99px;
+            text-decoration: none;
+            color: var(--text-muted);
+            font-weight: 600;
+            font-size: 0.9rem;
+            transition: color 0.2s, background-color 0.2s;
+        }
+        .nav-item a:hover {
+            color: var(--text-color);
+            background-color: var(--border-color);
+        }
+        .nav-item a.active {
+            color: var(--on-primary-container);
+            background-color: var(--primary-container);
+        }
+
+        .navbar-end { display: flex; align-items: center; gap: 0.75rem; }
+        .search-container input {
+            width: 100%; padding: 0.6rem 1rem;
+            border-radius: 8px; border: 1px solid var(--border-color);
+            background-color: var(--bg-color); color: var(--text-color);
+            font-size: 0.9rem;
+            min-width: 250px;
+        }
+        
+        .icon-button {
+            background: none; border: none; font-size: 1.2rem;
+            color: var(--text-muted); width: 44px; height: 44px;
+            border-radius: 50%; cursor: pointer;
+            display: grid; place-items: center;
+            transition: color 0.2s, background-color 0.2s;
+        }
+        .icon-button:hover {
+            color: var(--text-color); background-color: var(--border-color);
+        }
+        
+        .avatar {
+            width: 40px; height: 40px; border-radius: 50%;
+            background-color: var(--primary); color: white;
+            font-weight: 600; display: grid; place-items: center;
+            cursor: pointer;
+        }
+        
+        main {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 2rem 1.5rem;
+        }
+        
+        .mobile-bottom-nav {
+            display: none;
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            height: var(--bottom-nav-height);
+            background: hsla(0, 0%, 100%, 0.8);
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
+            border-top: 1px solid var(--border-color);
+            box-shadow: 0 -2px 10px rgba(0,0,0,0.05);
+            z-index: 1000;
+        }
+        [data-theme="dark"] .mobile-bottom-nav {
+            background: hsla(220, 23%, 16%, 0.8);
+        }
+        .mobile-nav-list {
+            list-style: none;
+            padding: 0; margin: 0;
+            display: flex;
+            justify-content: space-around;
+            align-items: center;
+            height: 100%;
+        }
+        .mobile-nav-item a {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 4px;
+            padding: 8px 12px;
+            color: var(--text-muted);
+            text-decoration: none;
+            font-size: 0.75rem;
+            font-weight: 500;
+        }
+        .mobile-nav-item a .nav-icon { font-size: 1.3rem; }
+        .mobile-nav-item a.active { color: var(--primary); }
+
+        @media (max-width: 768px) {
+            .nav-links, .search-container { display: none; }
+            .navbar { padding: 0 1rem; }
+            main { padding: 1.5rem 1rem; padding-bottom: calc(var(--bottom-nav-height) + 1.5rem); }
+            .mobile-bottom-nav { display: block; }
+        }
+
+        /* --- Styles from your apply_jobs page --- */
+        .job-list-container {
+            max-width: 1000px;
+            margin: 0 auto; /* Adjusted margin for main content area */
+            display: grid;
+            gap: 1.5rem;
+        }
+
+        .job-card {
+            background-color: var(--surface-color);
+            color: var(--text-color);
+            padding: 1.5rem;
+            border-radius: 1.25rem;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.08);
+            transition: transform 0.3s, background-color 0.3s;
+            display: flex;
+            flex-direction: column;
+        }
+        [data-theme="dark"] .job-card {
+             box-shadow: 0 4px 20px rgba(0,0,0,0.2);
+        }
+
+        .job-card:hover {
+            transform: translateY(-5px);
+        }
+
+        .job-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .job-title {
+            font-size: 1.3rem;
+            font-weight: 600;
+            color: var(--primary);
+        }
+
+        .company-name {
+            font-size: 1rem;
+            color: var(--text-muted);
+        }
+
+        .job-description {
+            margin: 1rem 0;
+            font-size: 1rem;
+            line-height: 1.6;
+            color: var(--text-muted);
+            flex-grow: 1; /* Makes description take up available space */
+        }
+
+        .job-actions {
+            display: flex;
+            justify-content: flex-end;
+            margin-top: auto; /* Pushes button to the bottom */
+        }
+
+        .apply-btn {
+            background-color: var(--primary);
+            color: #ffffff;
+            padding: 0.6rem 1.2rem;
+            border: none;
+            border-radius: 1.5rem;
+            font-size: 1rem;
+            font-weight: 500;
+            cursor: pointer;
+            transition: background-color 0.2s;
+        }
+        [data-theme="dark"] .apply-btn {
+            color: var(--bg-color);
+        }
+
+        .apply-btn:hover {
+            background-color: #4c5ad9;
+        }
+        [data-theme="dark"] .apply-btn:hover {
+            background-color: #b592ff;
+        }
+
+        @media (max-width: 768px) {
+            .job-card {
+            padding: 1rem;
+            }
+
+            .job-title {
+            font-size: 1.1rem;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <header class="app-header">
+        <nav class="navbar">
+            <div class="navbar-start">
+                <a href="{{ url_for('user_dashboard') }}" class="navbar-logo">
+                    <i class="fas fa-search-location logo-icon"></i>
+                    <span class="logo-text">FIND_IT</span>
+                </a>
+                <ul class="nav-links">
+                     <li class="nav-item"><a href="{{ url_for('user_dashboard') }}" class="{% if request.endpoint == 'user_dashboard' %}active{% endif %}">Home</a></li>
+                     <li class="nav-item"><a href="{{ url_for('apply_jobs') }}" class="{% if request.endpoint == 'apply_jobs' %}active{% endif %}">Jobs</a></li>
+                     <li class="nav-item"><a href="{{ url_for('view_applicants') }}" class="{% if request.endpoint == 'view_applicants' %}active{% endif %}">Applicants</a></li>
+                     {% if session.get('user_id') %}
+                     <li class="nav-item"><a href="{{ url_for('post_job') }}" class="{% if request.endpoint == 'post_job' %}active{% endif %}">Post a Job</a></li>
+                     {% endif %}
+                </ul>
+            </div>
+
+            <div class="navbar-end">
+                <div class="search-container">
+                     <input type="search" placeholder="Search...">
+                </div>
+                <button class="icon-button" id="themeToggle" title="Toggle Theme"><i class="fas fa-moon"></i></button>
+                <button class="icon-button" title="Notifications"><i class="fas fa-bell"></i></button>
+                <div class="avatar" title="{{ session.username|capitalize }}">
+                     {{ session.username[0]|upper if session.username else 'U' }}
+                </div>
+            </div>
+        </nav>
+    </header>
+
+    <main>
+        <div class="job-list-container">
+            <h2 style="text-align:center; margin-bottom:1rem; color: var(--text-color);">Available Jobs</h2>
+        
+            {% for job in jobs %}
+            <div class="job-card">
+              <div class="job-header">
+                <div>
+                  <div class="job-title">{{ job.title }}</div>
+                  <div class="company-name">Posted by: {{ job.posted_by }}</div>
+                </div>
+              </div>
+              <div class="job-description">{{ job.description }}</div>
+              <div class="job-actions">
+                <form method="POST" action="{{ url_for('apply_job', job_id=job.id) }}">
+                  <button class="apply-btn" type="submit">Apply Now</button>
+                </form>
+              </div>
+            </div>
+            {% else %}
+              <p style="color: var(--text-color); text-align: center;">No job postings available at the moment.</p>
+            {% endfor %}
+          </div>
+    </main>
+
+    <nav class="mobile-bottom-nav" aria-label="Main mobile navigation">
+        <ul class="mobile-nav-list">
+            <li class="mobile-nav-item">
+                <a href="{{ url_for('user_dashboard') }}" class="{% if request.endpoint == 'user_dashboard' %}active{% endif %}">
+                    <i class="fas fa-home nav-icon"></i>
+                    <span>Home</span>
+                </a>
+            </li>
+            <li class="mobile-nav-item">
+                <a href="{{ url_for('apply_jobs') }}" class="{% if request.endpoint == 'apply_jobs' %}active{% endif %}">
+                    <i class="fas fa-briefcase nav-icon"></i>
+                    <span>Jobs</span>
+                </a>
+            </li>
+             {% if session.get('user_id') %}
+            <li class="mobile-nav-item">
+                <a href="{{ url_for('post_job') }}" class="{% if request.endpoint == 'post_job' %}active{% endif %}">
+                    <i class="fas fa-plus-circle nav-icon"></i>
+                    <span>Post</span>
+                </a>
+            </li>
+            {% endif %}
+            <li class="mobile-nav-item">
+                <a href="{{ url_for('profile') }}" class="{% if 'profile' in request.endpoint %}active{% endif %}">
+                    <i class="fas fa-user nav-icon"></i>
+                    <span>Profile</span>
+                </a>
+            </li>
+        </ul>
+    </nav>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const themeToggle = document.getElementById('themeToggle');
+
+            const updateThemeIcon = (theme) => {
+                const icon = themeToggle.querySelector('i');
+                icon.className = theme === 'dark' ? 'fas fa-sun' : 'fas fa-moon';
+            };
+
+            themeToggle.addEventListener('click', () => {
+                const newTheme = document.documentElement.getAttribute('data-theme') === 'dark' ? 'light' : 'dark';
+                document.documentElement.setAttribute('data-theme', newTheme);
+                localStorage.setItem('theme', newTheme);
+                updateThemeIcon(newTheme);
+            });
+
+            const savedTheme = localStorage.getItem('theme') || 'light';
+            document.documentElement.setAttribute('data-theme', savedTheme);
+            updateThemeIcon(savedTheme);
+        });
+    </script>
+</body>
+</html>

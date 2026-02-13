@@ -1,0 +1,82 @@
+<!--<!DOCTYPE html>-->
+<!--<html>-->
+<!--<head><title>Register</title></head>-->
+<!--<body>-->
+<!--    <h2>Register</h2>-->
+<!--    <form method="POST">-->
+<!--        Username: <input name="username" required><br>-->
+<!--        Password: <input name="password" type="password" required><br>-->
+<!--        Role:-->
+<!--        <select name="role">-->
+<!--            <option value="user">User</option>-->
+<!--            <option value="admin">Admin</option>-->
+<!--        </select><br>-->
+<!--        <button type="submit">Register</button>-->
+<!--    </form>-->
+<!--    <p>{{ msg }}</p>-->
+<!--    <p>Already have an account? <a href="{{ url_for('login') }}">Login here</a></p>-->
+<!--</body>-->
+<!--</html>-->
+
+
+
+
+
+
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>FIND_IT Job Portal</title>
+    <link rel="stylesheet" href="static/css/style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+
+</head>
+<body>
+    <header>
+        <div class="left">
+            <h2 style="text-align: center; padding-left: 770px;">FIND_IT Job Portal</h2>
+        </div>
+        <div class="right">
+            <!-- <p>Post Office Road, Thiruppthur - 630211</p> -->
+        </div>
+    </header>
+
+    <div class="nbackground-image">
+        <div class="login-container-wrapper">
+            <!-- Admin Login Form -->
+            <div class="login-container">
+                <h1>Admin Login</h1>
+                <form id="LoginForm" onsubmit="return handleLogin(event)">
+                    <input type="text" id="username" placeholder="username" required>
+                    <br>
+                    <input type="password" id="password" placeholder="Password" required>
+                    <br>
+                   <select name="role">
+            <option value="user">User</option>
+            <option value="admin">Admin</option>
+        </select><br></br>
+                  <button type="submit">Register</button>
+<!--                    <button type="submit"><i class="fas fa-sign-in-alt"></i> Login</button>-->
+                </form>
+            </div>
+
+
+
+        </div>
+    </div>
+
+    <div class="register-link">
+        <p style="margin-top: -300px; padding-left: 850px; display: flex;">If you are a all ready register</p>
+        <div class="make">
+            <a href="{{ url_for('login') }}"><button>Login  Here</button></a>
+        </div>
+    </div>
+
+    <script src="static/js/script.js"></script>
+<!-- <p>{{ msg }}</p>-->
+<!--    <p>Already have an account? <a href="{{ url_for('login') }}">Login here</a></p>-->
+</body>
+</html>
